@@ -74,4 +74,48 @@ RSpec.describe DiscountService, type: :service do
       expect(discount_service.discounted_total).to eq(Money.new(2995))
     end
   end
+
+  describe "Test data" do
+    let(:cart) { create(:cart) }
+
+    it "return 22.45 for GR1, SR1, GR1, GR1, CF1" do
+      create(:green_tea_item, cart: cart)
+      create(:strawberry_item, cart: cart)
+      create(:green_tea_item, cart: cart)
+      create(:green_tea_item, cart: cart)
+      create(:coffee_item, cart: cart)
+
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(2245))
+    end
+
+    it "return 3.11 for GR1, GR1" do
+      create(:green_tea_item, cart: cart)
+      create(:green_tea_item, cart: cart)
+
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(311))
+    end
+
+    it "return 16.61 for SR1, SR1, GR1, SR1" do
+      create(:strawberry_item, cart: cart)
+      create(:strawberry_item, cart: cart)
+      create(:green_tea_item, cart: cart)
+      create(:strawberry_item, cart: cart)
+
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(1661))
+    end
+
+    it "return 30.57 for GR1, CF1, SR1, CF1, CF1" do
+      create(:green_tea_item, cart: cart)
+      create(:coffee_item, cart: cart)
+      create(:strawberry_item, cart: cart)
+      create(:coffee_item, cart: cart)
+      create(:coffee_item, cart: cart)
+
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(3057))
+    end
+  end
 end
