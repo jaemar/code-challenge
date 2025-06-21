@@ -9,5 +9,15 @@ FactoryBot.define do
         create(:discount_bogo, product: product)
       end
     end
+
+    factory :strawberry_product do
+      code  { "SR1" }
+      name  { "Strawberries" }
+      price { 5.00 }
+
+      after(:create) do |product|
+        create(:discount_bulk, product: product)
+      end
+    end
   end
 end

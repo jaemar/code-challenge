@@ -5,5 +5,11 @@ FactoryBot.define do
       code { "bogo" }
       condition { {} }
     end
+
+    factory :discount_bulk do
+      product
+      code { "bulk" }
+      condition { { min_quantity: 3, new_price: 450 } }
+    end
   end
 end

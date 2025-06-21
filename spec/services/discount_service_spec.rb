@@ -24,4 +24,23 @@ RSpec.describe DiscountService, type: :service do
       expect(discount_service.discounted_total).to eq(product.price_cents * 2)
     end
   end
+
+  describe "BULK: Item price EUR 5.00" do
+    let(:product) { create(:strawberry_product) }
+
+    it "returns 10.00 for 2 items" do
+      items_count = 2
+      cart = (create(:cart_with_bulk_discount, items_count: items_count))
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(product.price_cents * items_count)
+    end
+
+    it "returns 13.50 for 3 items" do
+      # 450 should be the new price for 3 items and above
+      items_count = 3
+      cart = (create(:cart_with_bulk_discount, items_count: items_count))
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(450 * items_count)
+    end
+  end
 end

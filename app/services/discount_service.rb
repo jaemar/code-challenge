@@ -23,11 +23,21 @@ class DiscountService
     case discount.code
     when "bogo"
       apply_bogo(discount.condition, item)
+    when "bulk"
+      apply_bulk(discount.condition, item)
     end
   end
 
   def apply_bogo(_condition, item)
     bogo_price_cents = item.price_cents * (item.quantity / 2)  # get bogo total price
     bogo_price_cents += item.price_cents * (item.quantity % 2) # add the remaining item's price
+  end
+
+  def apply_bulk(condition, item)
+    min_qty = condition["min_quantity"] || 0
+    new_price = condition["new_price"]
+    return item.subtotal if item.quantity < min_qty
+
+    item.quantity * new_price
   end
 end
