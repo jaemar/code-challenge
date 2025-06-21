@@ -19,5 +19,15 @@ FactoryBot.define do
         create(:discount_bulk, product: product)
       end
     end
+
+    factory :coffee_product do
+      code  { "CF1" }
+      name  { "Coffee" }
+      price { 11.23 }
+
+      after(:create) do |product|
+        create(:discount_percentage, product: product)
+      end
+    end
   end
 end

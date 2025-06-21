@@ -8,9 +8,8 @@ RSpec.describe DiscountService, type: :service do
       items_count = 2
       cart = create(:cart_with_bogo_discount, items_count: items_count)
       discount_service = DiscountService.new(cart)
-      discount_service.discounted_total
 
-      expect(discount_service.discounted_total).to eq(product.price_cents)
+      expect(discount_service.discounted_total).to eq(Money.new(product.price_cents))
     end
 
     it "return 6.22 for 3 items" do
@@ -19,9 +18,8 @@ RSpec.describe DiscountService, type: :service do
       items_count = 3
       cart = create(:cart_with_bogo_discount, items_count: items_count)
       discount_service = DiscountService.new(cart)
-      discount_service.discounted_total
 
-      expect(discount_service.discounted_total).to eq(product.price_cents * 2)
+      expect(discount_service.discounted_total).to eq(Money.new(product.price_cents * 2))
     end
   end
 
@@ -32,7 +30,7 @@ RSpec.describe DiscountService, type: :service do
       items_count = 2
       cart = (create(:cart_with_bulk_discount, items_count: items_count))
       discount_service = DiscountService.new(cart)
-      expect(discount_service.discounted_total).to eq(product.price_cents * items_count)
+      expect(discount_service.discounted_total).to eq(Money.new(product.price_cents * items_count))
     end
 
     it "returns 4.50 per items for 3 items" do
@@ -40,7 +38,7 @@ RSpec.describe DiscountService, type: :service do
       items_count = 3
       cart = (create(:cart_with_bulk_discount, items_count: items_count))
       discount_service = DiscountService.new(cart)
-      expect(discount_service.discounted_total).to eq(450 * items_count)
+      expect(discount_service.discounted_total).to eq(Money.new(450 * items_count))
     end
 
     it "returns 4.50 per items for 4 items" do
@@ -48,7 +46,32 @@ RSpec.describe DiscountService, type: :service do
       items_count = 4
       cart = (create(:cart_with_bulk_discount, items_count: items_count))
       discount_service = DiscountService.new(cart)
-      expect(discount_service.discounted_total).to eq(450 * items_count)
+      expect(discount_service.discounted_total).to eq(Money.new(450 * items_count))
+    end
+  end
+
+  describe "PERCENTAGE: Item price EUR 11.23" do
+    let(:product) { create(:coffee_product) }
+
+    it "returns 22.46 for 2 items" do
+      items_count = 2
+      cart = (create(:cart_with_percentage_discount, items_count: items_count))
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(product.price_cents * items_count))
+    end
+
+    it "returns 2/3 or price per items for 3 items" do
+      items_count = 3
+      cart = (create(:cart_with_percentage_discount, items_count: items_count))
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(2246))
+    end
+
+    it "returns 2/3 or price per items for 4 items" do
+      items_count = 4
+      cart = (create(:cart_with_percentage_discount, items_count: items_count))
+      discount_service = DiscountService.new(cart)
+      expect(discount_service.discounted_total).to eq(Money.new(2995))
     end
   end
 end

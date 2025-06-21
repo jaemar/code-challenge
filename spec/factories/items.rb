@@ -19,5 +19,13 @@ FactoryBot.define do
       product { strawberry_product }
       price { product.price }
     end
+
+    factory :coffee_item do
+      transient do
+        coffee_product { Product.find_by(code: "CF1") || create(:coffee_product) }
+      end
+      product { coffee_product }
+      price { product.price }
+    end
   end
 end

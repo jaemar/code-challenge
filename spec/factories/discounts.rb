@@ -11,5 +11,11 @@ FactoryBot.define do
       code { "bulk" }
       condition { { min_quantity: 3, new_price: 450 } }
     end
+
+    factory :discount_percentage do
+      product
+      code { "percentage" }
+      condition { { min_quantity: 3, percentage: 33.33 } }
+    end
   end
 end
