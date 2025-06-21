@@ -13,4 +13,8 @@ class Cart < ApplicationRecord
     service = DiscountService.new(self)
     service.discounted_total
   end
+
+  def update_total
+    update(total_price: total)
+  end
 end

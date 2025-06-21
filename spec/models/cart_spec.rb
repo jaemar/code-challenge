@@ -21,21 +21,30 @@ RSpec.describe Cart, type: :model do
   end
 
   describe "#total" do
-    before do
-      @cart = create(:cart_with_bulk_discount)
-    end
+    let(:cart) { create(:cart_with_bulk_discount) }
 
     it "returns Money instance" do
-      expect(@cart.total).to be_a Money
+      expect(cart.total).to be_a Money
     end
 
     it "returns 500" do
-      expect(@cart.total.cents).to eq(500)
+      expect(cart.total.cents).to eq(500)
     end
 
     it "return 0 for cart without items" do
       cart = create(:cart)
       expect(cart.total.cents).to eq(0)
+    end
+  end
+
+  describe "#update_total" do
+    let(:cart) { create(:cart) }
+
+    it "update cart total price" do
+      allow_any_instance_of(Item).to receive(:update_cart_total)
+      create(:green_tea_item, cart: cart)
+      cart&.update_total
+      expect(cart.total_price).to eq(cart.total)
     end
   end
 end
