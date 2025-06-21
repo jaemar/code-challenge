@@ -8,4 +8,9 @@ class Cart < ApplicationRecord
       .group(:product_id, :price_cents)
       .select(:product_id, :price_cents, "COUNT(*) as quantity", "SUM(price_cents) as subtotal")
   end
+
+  def total
+    service = DiscountService.new(self)
+    service.discounted_total
+  end
 end
