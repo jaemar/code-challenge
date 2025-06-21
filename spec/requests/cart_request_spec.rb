@@ -14,7 +14,7 @@ RSpec.describe 'Cart API', type: :request do
       data = body["data"]
 
       expect(data["type"]).to eq("cart")
-      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol", "currency_in_word" ])
+      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol" ])
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe 'Cart API', type: :request do
       data = body["data"]
 
       expect(data["type"]).to eq("cart")
-      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol", "currency_in_word" ])
+      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol" ])
     end
 
     context "Errors" do
@@ -45,6 +45,96 @@ RSpec.describe 'Cart API', type: :request do
         error = body["error"]
 
         expect(error.keys).to eq([ "message" ])
+      end
+    end
+  end
+
+  describe "POST /api/v1/carts/:id/add_to_basket" do
+    let(:cart) { create(:cart) }
+    let(:green_tea) { create(:green_tea_product) }
+
+    it "adds item in cart" do
+      params = {
+        item: {
+          product_id: green_tea.id,
+          price: green_tea.price
+        }
+      }
+      post add_to_basket_api_v1_cart_url(cart.id), params: params
+
+      body = JSON.parse(response.body)
+      data = body["data"]
+
+      expect(data["type"]).to eq("cart")
+      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol" ])
+    end
+
+    it "persist item attributes" do
+      params = {
+        item: {
+          product_id: green_tea.id,
+          price: green_tea.price
+        }
+      }
+      post add_to_basket_api_v1_cart_url(cart.id), params: params
+      item = Item.last
+
+      expect(item.cart_id).to eq(cart.id)
+      expect(item.product_id).to eq(green_tea.id)
+      expect(item.price).to eq(green_tea.price)
+    end
+
+    it "returns total price and basket items" do
+      create(:green_tea_item, product: green_tea, cart: cart)
+      params = {
+        item: {
+          product_id: green_tea.id,
+          price: green_tea.price
+        }
+      }
+      post add_to_basket_api_v1_cart_url(cart.id), params: params
+
+      body = JSON.parse(response.body)
+      data = body["data"]
+
+      expect(data.dig("attributes", "total_price", "cents")).to eq(311)
+      expect(data.dig("attributes", "basket")).to eq("GR1, GR1")
+    end
+
+    context "Errors" do
+      it "returns error for cart that does not exists" do
+        post add_to_basket_api_v1_cart_url(0)
+
+        body = JSON.parse(response.body)
+        error = body["error"]
+
+        expect(error.keys).to eq([ "message" ])
+        expect(error["message"]).to eq("Couldn't find Cart with 'id'=0")
+      end
+
+      it "returns error for product that does not exists" do
+        params = {
+          item: {
+            product_id: 0
+          }
+        }
+        post add_to_basket_api_v1_cart_url(cart.id), params: params
+
+        body = JSON.parse(response.body)
+        error = body["error"]
+
+        expect(error.keys).to eq([ "message" ])
+        expect(error["message"]).to eq("Couldn't find Product with 'id'=0")
+      end
+
+      it "returns error for missing item params" do
+        post add_to_basket_api_v1_cart_url(cart.id)
+
+        body = JSON.parse(response.body)
+        error = body["error"]
+
+        expect(error.keys).to eq([ "message" ])
+        expect(error["message"]).to eq("Item params missing")
       end
     end
   end

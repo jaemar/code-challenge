@@ -6,7 +6,7 @@ class CartSerializer
   end
 
   attribute :basket do |cart|
-    cart.items.map { |item| item.product.code }.join(",")
+    cart.items.map { |item| item.product.code }.join(", ")
   end
 
   attribute :formatted_total_price do |cart|
@@ -15,9 +15,5 @@ class CartSerializer
 
   attribute :currency_in_symbol do |cart|
     cart.total.currency.symbol
-  end
-
-  attribute :currency_in_word do |cart|
-    cart.total.currency.iso_code
   end
 end
