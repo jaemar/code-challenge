@@ -1,24 +1,35 @@
-# README
+## Tech Stack
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- Ruby-on-Rails
+- ReactJS
+- Typescript
+- SQLite3
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+#### Project clone
+```bash
+git clone git@github.com:jaemar/code-challenge.git
+cd code-challenge
+```
 
-* System dependencies
+#### Backend (Ruby-on-Rails)
+```bash
+bundle install
+bin/rails db:prepare # db:create db:migrate db:seed
+bin/rails server # run the backend api
+```
 
-* Configuration
+#### Frontend (ReactJS + Typescript)
+```bash
+cd frontend
+npm install
+npm start # run the frontend
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Limitation
+- No authentication
+- No user authorization
+- No checkout
+- No payment gateway integration
+- 
