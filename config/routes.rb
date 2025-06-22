@@ -5,7 +5,7 @@ Rails.application.routes.draw do
         post :add_to_basket, on: :member
       end
 
-      resources :products, only: [ :index ]
+      resources :products, only: [ :create, :index ]
     end
   end
 end

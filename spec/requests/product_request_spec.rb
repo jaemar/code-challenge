@@ -14,4 +14,26 @@ RSpec.describe "Product API", type: :request do
       expect(body.first.keys).to eq([ "id", "code", "currency", "name", "price" ])
     end
   end
+
+  describe "POST /api/v1/products" do
+    let(:params) { { code: "MR1", name: "Mango", price: 2.5 } }
+    it "creates new product" do
+      expect do
+        post api_v1_products_url, params: params
+      end.to change(Product, :count).by(1)
+    end
+
+    context "Error" do
+      it "Invalid or missing params" do
+        post api_v1_products_url, params: {}
+
+        body = JSON.parse(response.body)
+        error = body["error"]
+
+        expect(error.keys).to eq([ "message" ])
+        expect(error["message"]).to eq("Validation failed: Price cents is not a number, Price is not a number")
+        expect(response.status).to eq(422)
+      end
+    end
+  end
 end

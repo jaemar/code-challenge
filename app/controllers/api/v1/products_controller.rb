@@ -3,7 +3,22 @@ module Api
     class ProductsController < ApplicationController
       def index
         products = Product.all
-        render json: ProductBlueprint.render(products)
+        render_json(products)
+      end
+
+      def create
+        product = Product.create!(product_params)
+        render_json(product, status: :created)
+      rescue ActiveRecord::RecordInvalid => e
+        render_error(e.message, status: :unprocessable_entity)
+      rescue
+        render_error("Internal Server Error")
+      end
+
+      private
+
+      def product_params
+        params.permit(:code, :name, :price)
       end
     end
   end
