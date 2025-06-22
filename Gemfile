@@ -38,7 +38,7 @@ gem "money-rails", "~> 1.15"
 gem "rack-cors"
 
 # Use serializer to limit exposed fields
-gem "jsonapi-serializer"
+gem "blueprinter"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

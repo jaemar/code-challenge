@@ -3,19 +3,19 @@ module Api
     class CartsController < ApplicationController
       def index
         carts = Cart.all
-        render_jsonapi(carts, serializer: CartSerializer)
+        render json: CartBlueprint.render(carts)
       end
 
       def create
         cart = Cart.create(total_price: 0)
 
-        render_jsonapi(cart)
+        render json: CartBlueprint.render(cart)
       end
 
       def show
         cart = Cart.find(params[:id])
 
-        render_jsonapi(cart)
+        render json: CartBlueprint.render(cart)
       rescue => e
         render json: { error: { message: e.message } }
       end
@@ -25,7 +25,7 @@ module Api
         product = Product.find(item_params[:product_id])
         cart.items.create!(product: product, price: product.price)
 
-        render_jsonapi(cart)
+        render json: CartBlueprint.render(cart)
       rescue ActiveRecord::RecordNotFound => e
         render json: { error: { message: e.message } }
       rescue ActionController::ParameterMissing

@@ -80,6 +80,7 @@ GEM
     benchmark (0.4.1)
     bigdecimal (3.2.2)
     bindex (0.8.1)
+    blueprinter (1.1.2)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
     brakeman (7.0.2)
@@ -121,8 +122,6 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.12.2)
-    jsonapi-serializer (2.2.0)
-      activesupport (>= 4.2)
     kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -375,12 +374,12 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  blueprinter
   bootsnap
   brakeman
   debug
   factory_bot_rails (~> 6.5)
   jbuilder
-  jsonapi-serializer
   kamal
   money-rails (~> 1.15)
   propshaft
