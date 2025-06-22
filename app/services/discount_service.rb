@@ -21,6 +21,8 @@ class DiscountService
     product  = Product.find(item.product_id)
     discount = product.discount
 
+    return item.subtotal unless discount
+
     case discount.code
     when "bogo"
       apply_bogo(discount.condition, item)
