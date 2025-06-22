@@ -24,38 +24,50 @@ const CartListingPage = () => {
   };
 
   return (
-    <div>
-      <h1>Carts</h1>
-
-      <button
-        className="btn btn-primary"
-        onClick={handleCreateCart}>
-        New Cart
-      </button>
-      <table className="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Basket</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {carts.map(cart => (
-            <tr>
-                <td>
-                    {cart.basket ? cart.basket : '-'}
-                </td>
-                <td>
-                    {cart.total_price} {cart.currency}
-                </td>
-                <td>
-                  <Link to={`/${cart.id}/add_product`} className="btn btn-primary">Add Product</Link>
-                </td>
-            </tr>
-            ))}
-        </tbody>
-      </table>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <h1 className="float-start">Carts</h1>
+        </div>
+        <div className="col d-flex justify-content-end align-items-center">
+          <button
+            className="btn btn-primary"
+            onClick={handleCreateCart}>
+            New Cart
+          </button>
+        </div>
+      </div>
+      <div>
+        <table className="table table-striped table-bordered">
+          <thead>
+              <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Basket</th>
+                  <th scope="col">Total Price</th>
+                  <th scope="col">Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              {carts.map(cart => (
+              <tr>
+                  <td scope="row" className="text-center align-middle">
+                      {cart.id}
+                  </td>
+                  <td className="text-start align-middle">
+                      {cart.basket ? cart.basket : '-'}
+                  </td>
+                  <td className="text-start align-middle">
+                      {cart.total_price} {cart.currency}
+                  </td>
+                  <td>
+                    <Link to={`/${cart.id}`} className="btn btn-outline-secondary">View</Link>
+                    <Link to={`/${cart.id}/add_product`} className="btn btn-outline-primary">Add Product</Link>
+                  </td>
+              </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

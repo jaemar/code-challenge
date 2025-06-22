@@ -1,5 +1,5 @@
 class Cart < ApplicationRecord
-  has_many :items
+  has_many :items, dependent: :destroy
 
   monetize :total_price_cents, allow_nil: true
 

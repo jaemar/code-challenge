@@ -43,7 +43,7 @@ RSpec.describe 'Cart API', type: :request do
       get api_v1_cart_url(cart.id)
       body = JSON.parse(response.body)
 
-      expect(body.keys).to eq([ "id", "basket", "currency", "total_price" ])
+      expect(body.keys).to eq([ "id", "basket", "currency", "items", "total_price" ])
     end
 
     context "Errors" do

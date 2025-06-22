@@ -17,6 +17,10 @@ const AddProductToCartPage = () => {
   useEffect(() => {
     if (!id) return;
     fetchProducts().then(setProducts);
+    
+    if (newCartStatus) {
+      setStatus(newCartStatus)
+    }
   }, []);
 
   const handleSubmit = async () => {
@@ -39,7 +43,6 @@ const AddProductToCartPage = () => {
     <div>
       <h1>Add Product to Cart</h1>
 
-      {newCartStatus && <div className="alert alert-primary">{newCartStatus}</div>}
       {status && <div className="alert alert-primary">{status}</div>}
       <div className="input-group mb-3">
         <div className="input-group-prepend">

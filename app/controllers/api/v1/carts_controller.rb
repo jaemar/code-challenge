@@ -15,7 +15,7 @@ module Api
       def show
         cart = Cart.find(params[:id])
 
-        render json: CartBlueprint.render(cart)
+        render json: CartBlueprint.render(cart, view: :items)
       rescue => e
         render json: { error: { message: e.message } }
       end

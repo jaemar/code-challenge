@@ -10,4 +10,8 @@ class CartBlueprint < Blueprinter::Base
   field :currency do |cart|
     cart.total_price.currency.symbol
   end
+
+  view :items do
+    association :items, blueprint: ItemBlueprint
+  end
 end
