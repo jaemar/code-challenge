@@ -35,9 +35,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "money-rails", "~> 1.15"
-
-gem "react-rails"
-gem "jsbundling-rails"
+gem "rack-cors"
 
 # Use serializer to limit exposed fields
 gem "jsonapi-serializer"
