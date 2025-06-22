@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Product } from "../types/product";
 import { fetchProducts } from "../actions/productActions";
 import { addProductToCart } from "../actions/cartActions";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const AddProductToCartPage = () => {
   const { id } = useParams();
+  const location = useLocation();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const newCartStatus = location.state?.status;
 
   useEffect(() => {
     if (!id) return;
@@ -37,23 +39,31 @@ const AddProductToCartPage = () => {
     <div>
       <h1>Add Product to Cart</h1>
 
-      <select
-        value={selectedProductId ?? ""}
-        onChange={(e) => setSelectedProductId(Number(e.target.value))}
-      >
-        <option value="" disabled>Select a product</option>
-        {products.map((product) => (
-          <option key={product.id} value={product.id}>
-            ({product.code}){product.name} - {product.price} {product.currency}
-          </option>
-        ))}
-      </select>
-
-      <button onClick={handleSubmit} disabled={!selectedProductId || loading}>
-        {loading ? "Adding..." : "Add to Cart"}
-      </button>
-
-      {status && <p>{status}</p>}
+      {newCartStatus && <div className="alert alert-primary">{newCartStatus}</div>}
+      {status && <div className="alert alert-primary">{status}</div>}
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <label className="input-group-text">Products</label>
+        </div>
+        <select
+          className="form-control"
+          value={selectedProductId ?? ""}
+          onChange={(e) => setSelectedProductId(Number(e.target.value))}
+        >
+          <option value="" disabled>Choose...</option>
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>
+              ({product.code}){product.name} - {product.price} {product.currency}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <button onClick={handleSubmit} disabled={!selectedProductId || loading} className="btn btn-outline-primary">
+          {loading ? "Adding..." : "Add to Cart"}
+        </button>
+        <Link to={`/`} className="btn btn-outline-secondary">Cancel</Link>
+      </div>
     </div>
   );
 };

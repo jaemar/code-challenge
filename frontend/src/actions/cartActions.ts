@@ -1,5 +1,10 @@
 import { Cart } from "../types/cart";
-import { getCart, getCarts, addToCart } from "../api/cartApi";
+import { getCart, getCarts, addToCart, createCart } from "../api/cartApi";
+
+export const newCart = async (): Promise<Cart> => {
+    const response = await createCart();
+    return response.data;
+};
 
 export const fetchCartById = async (id: number): Promise<Cart> => {
     const response = await getCart(id);

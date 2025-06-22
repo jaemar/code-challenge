@@ -2,6 +2,10 @@
 import api from "./api";
 import { Cart } from "../types/cart";
 
+export const createCart = () => {
+    return api.post<Cart>('/carts');
+}
+
 export const getCart = (id: number) => {
     return api.get<Cart>(`/carts/${id}`);
 }

@@ -9,7 +9,7 @@ discounts = [
   {
     product: Product.find_by(code: "SR1"),
     code: "bulk",
-    condition: { min_quantity: 3, new_price: 4.50 }
+    condition: { min_quantity: 3, new_price: 450 }
   },
   {
     product: Product.find_by(code: "CF1"),
