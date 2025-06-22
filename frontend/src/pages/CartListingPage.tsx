@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchCarts } from "../actions/cartActions";
 import { Cart } from "../types/cart";
+import { Link } from "react-router-dom";
 
 const CartListingPage = () => {
   const [carts, setCarts] = useState<Cart[] | null>(null);
@@ -19,6 +20,7 @@ const CartListingPage = () => {
             <tr>
                 <th>Basket</th>
                 <th>Total Price</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +31,9 @@ const CartListingPage = () => {
                 </td>
                 <td>
                     {cart.total_price} {cart.currency}
+                </td>
+                <td>
+                  <Link to={`/${cart.id}/add_product`}>Add Product</Link>
                 </td>
             </tr>
             ))}

@@ -10,9 +10,8 @@ RSpec.describe "Product API", type: :request do
       get api_v1_products_url
       body = JSON.parse(response.body)
 
-      debugger
       expect(body).to be_kind_of(Array)
-      expect(body.first.keys).to eq([ "id", "code", "currency" "price" ])
+      expect(body.first.keys).to eq([ "id", "code", "currency", "name", "price" ])
     end
   end
 end

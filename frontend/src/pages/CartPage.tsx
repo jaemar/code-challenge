@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { Cart } from "../types/cart";
 import { fetchCartById } from "../actions/cartActions";
+import { useParams } from "react-router-dom";
 
 const CartPage = () => {
+  const { id } = useParams();
   const [cart, setCart] = useState<Cart | null>(null);
 
   useEffect(() => {
-    fetchCartById("1").then(setCart);
+    if (!id) return;
+    fetchCartById(Number(id)).then(setCart);
   }, []);
 
   if (!cart) return <p>Loading...</p>;
