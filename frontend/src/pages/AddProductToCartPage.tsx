@@ -40,7 +40,7 @@ const AddProductToCartPage = () => {
   };
 
   return (
-    <div>
+    <div className="container-fluid">
       <h1>Add Product to Cart</h1>
 
       {status && <div className="alert alert-primary">{status}</div>}
@@ -62,10 +62,10 @@ const AddProductToCartPage = () => {
         </select>
       </div>
       <div>
-        <button onClick={handleSubmit} disabled={!selectedProductId || loading} className="btn btn-outline-primary">
+        <button onClick={handleSubmit} disabled={!selectedProductId || loading} className="btn btn-success">
           {loading ? "Adding..." : "Add to Cart"}
         </button>
-        <Link to={`/`} className="btn btn-outline-secondary">Cancel</Link>
+        <Link to={`/`} className="btn btn-secondary float-end">Cancel</Link>
       </div>
     </div>
   );

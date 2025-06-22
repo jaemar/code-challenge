@@ -11,7 +11,6 @@ const CartListingPage = () => {
     fetchCarts().then(setCarts);
   }, []);
 
-  if (!carts) return <p>Loading...</p>;
   const handleCreateCart = async () => {
     try {
       const cart = await newCart();
@@ -41,30 +40,38 @@ const CartListingPage = () => {
         <table className="table table-striped table-bordered">
           <thead>
               <tr>
-                  <th scope="col"></th>
+                  <th scope="col" className="text-center align-middle">ID</th>
                   <th scope="col">Basket</th>
                   <th scope="col">Total Price</th>
                   <th scope="col">Actions</th>
               </tr>
           </thead>
           <tbody>
-              {carts.map(cart => (
+            { !carts ? (
               <tr>
-                  <td scope="row" className="text-center align-middle">
-                      {cart.id}
-                  </td>
-                  <td className="text-start align-middle">
-                      {cart.basket ? cart.basket : '-'}
-                  </td>
-                  <td className="text-start align-middle">
-                      {cart.total_price} {cart.currency}
-                  </td>
-                  <td>
-                    <Link to={`/${cart.id}`} className="btn btn-outline-secondary">View</Link>
-                    <Link to={`/${cart.id}/add_product`} className="btn btn-outline-primary">Add Product</Link>
-                  </td>
+                <td colSpan={4} className="text-center align-middle">
+                  Loading...
+                </td>
               </tr>
-              ))}
+            ) : (
+              carts.map(cart => (
+                <tr>
+                    <td scope="row" className="text-center align-middle">
+                        {cart.id}
+                    </td>
+                    <td className="text-start align-middle">
+                        {cart.basket ? cart.basket : '-'}
+                    </td>
+                    <td className="text-start align-middle">
+                        {cart.total_price} {cart.currency}
+                    </td>
+                    <td>
+                      <Link to={`/${cart.id}`} className="btn btn-outline-secondary">View</Link>
+                      <Link to={`/${cart.id}/add_product`} className="btn btn-outline-primary">Add Product</Link>
+                    </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

@@ -6,4 +6,6 @@ export interface Cart {
     basket: string;
     currency: string;
     items: Item[];
+    discount: string;
+    subtotal: string;
 }

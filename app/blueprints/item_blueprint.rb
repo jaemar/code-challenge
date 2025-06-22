@@ -1,5 +1,7 @@
 class ItemBlueprint < Blueprinter::Base
   identifier :id
 
-  association :product, blueprint: ProductBlueprint
+  fields :price
+
+  association :product, blueprint: ProductBlueprint, view: :items
 end

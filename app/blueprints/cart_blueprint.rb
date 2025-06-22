@@ -12,6 +12,14 @@ class CartBlueprint < Blueprinter::Base
   end
 
   view :items do
+    field :subtotal do |cart|
+      cart.items.sum(&:price)
+    end
+
+    field :discount do |cart|
+      cart.items.sum(&:price) - cart.total_price
+    end
+
     association :items, blueprint: ItemBlueprint
   end
 end

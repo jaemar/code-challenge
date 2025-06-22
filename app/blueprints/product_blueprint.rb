@@ -1,9 +1,15 @@
 class ProductBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :code, :price, :name
+  view :default do
+    fields :code, :price, :name
+  end
 
   field :currency do |product|
     product.price.currency.symbol
+  end
+
+  view :items do
+    fields :code, :name
   end
 end
