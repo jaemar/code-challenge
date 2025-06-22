@@ -11,10 +11,8 @@ RSpec.describe 'Cart API', type: :request do
     it "returns cart json" do
       post api_v1_carts_url
       body = JSON.parse(response.body)
-      data = body["data"]
 
-      expect(data["type"]).to eq("cart")
-      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol" ])
+      expect(body.keys).to eq([ "id", "basket", "currency", "total_price" ])
     end
   end
 
@@ -23,18 +21,18 @@ RSpec.describe 'Cart API', type: :request do
       get api_v1_carts_url
       body = JSON.parse(response.body)
 
-      expect(body["data"]).to be_empty
+      expect(body).to be_empty
     end
 
     it "returns list of carts" do
       cart = create(:cart_with_bogo_discount)
       get api_v1_carts_url
       body = JSON.parse(response.body)
-      data = body["data"].first
+      data = body.first
 
-      expect(body["data"]).to be_kind_of(Array)
-      expect(body["data"].count).to be(1)
-      expect(data["id"]).to eq(cart.id.to_s)
+      expect(body).to be_kind_of(Array)
+      expect(body.count).to be(1)
+      expect(data["id"]).to eq(cart.id)
     end
   end
 
@@ -44,10 +42,8 @@ RSpec.describe 'Cart API', type: :request do
     it "returns cart json" do
       get api_v1_cart_url(cart.id)
       body = JSON.parse(response.body)
-      data = body["data"]
 
-      expect(data["type"]).to eq("cart")
-      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol" ])
+      expect(body.keys).to eq([ "id", "basket", "currency", "total_price" ])
     end
 
     context "Errors" do
@@ -81,12 +77,9 @@ RSpec.describe 'Cart API', type: :request do
         }
       }
       post add_to_basket_api_v1_cart_url(cart.id), params: params
-
       body = JSON.parse(response.body)
-      data = body["data"]
 
-      expect(data["type"]).to eq("cart")
-      expect(data["attributes"].keys).to eq([ "total_price", "basket", "formatted_total_price", "currency_in_symbol" ])
+      expect(body.keys).to eq([ "id", "basket", "currency", "total_price" ])
     end
 
     it "persist item attributes" do
@@ -115,10 +108,9 @@ RSpec.describe 'Cart API', type: :request do
       post add_to_basket_api_v1_cart_url(cart.id), params: params
 
       body = JSON.parse(response.body)
-      data = body["data"]
 
-      expect(data.dig("attributes", "total_price", "cents")).to eq(311)
-      expect(data.dig("attributes", "basket")).to eq("GR1, GR1")
+      expect(body["total_price"]).to eq("3.11")
+      expect(body["basket"]).to eq("GR1, GR1")
     end
 
     context "Errors" do
