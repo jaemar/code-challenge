@@ -17,7 +17,7 @@ cd code-challenge
 ```bash
 bundle install
 bin/rails db:prepare # db:create db:migrate db:seed
-bin/rails server # run the backend api
+bin/rails server -p 3001 # run the backend api
 ```
 
 #### Frontend (ReactJS + Typescript)
@@ -27,9 +27,17 @@ npm install
 npm start # run the frontend
 ```
 
-### Limitation
+## Feature
+- Cart Listing
+- Cart Items Listing (or) Cart Details
+- Add Product to Cart
+- Product Listing
+
+
+## Limitation
 - No authentication
 - No user authorization
 - No checkout
 - No payment gateway integration
-- 
+- No adding of new products
+- No adding of new discount and condition on products
