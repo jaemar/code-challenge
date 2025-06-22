@@ -18,6 +18,26 @@ RSpec.describe 'Cart API', type: :request do
     end
   end
 
+  describe "GET /api/v1/carts" do
+    it "returns empty array" do
+      get api_v1_carts_url
+      body = JSON.parse(response.body)
+
+      expect(body["data"]).to be_empty
+    end
+
+    it "returns list of carts" do
+      cart = create(:cart_with_bogo_discount)
+      get api_v1_carts_url
+      body = JSON.parse(response.body)
+      data = body["data"].first
+
+      expect(body["data"]).to be_kind_of(Array)
+      expect(body["data"].count).to be(1)
+      expect(data["id"]).to eq(cart.id.to_s)
+    end
+  end
+
   describe "POST /api/v1/carts/:id" do
     let(:cart) { create(:cart_with_bulk_discount, items_count: 3) }
 

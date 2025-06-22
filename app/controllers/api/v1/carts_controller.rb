@@ -1,6 +1,11 @@
 module Api
   module V1
     class CartsController < ApplicationController
+      def index
+        carts = Cart.all
+        render_jsonapi(carts, serializer: CartSerializer)
+      end
+
       def create
         cart = Cart.create(total_price: 0)
 
