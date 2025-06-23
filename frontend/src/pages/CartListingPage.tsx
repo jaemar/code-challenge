@@ -55,7 +55,7 @@ const CartListingPage = () => {
               </tr>
             ) : (
               carts.map(cart => (
-                <tr>
+                <tr key={cart.id}>
                     <td scope="row" className="text-center align-middle">
                         {cart.id}
                     </td>

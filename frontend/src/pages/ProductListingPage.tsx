@@ -34,7 +34,7 @@ const ProductListingPage = () => {
               </tr>
             ) : (
               products.map(product => (
-                <tr>
+                <tr key={product.code}>
                     <td scope="row" className="text-start align-middle">
                         {product.code}
                     </td>

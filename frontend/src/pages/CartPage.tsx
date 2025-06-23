@@ -33,7 +33,7 @@ const CartPage = () => {
               </tr>
             ) : (
               cart.items.map(item => (
-                <tr>
+                <tr key={item.id}>
                   <td className="text-start align-middle">
                     {item.product.code}
                   </td>
