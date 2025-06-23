@@ -20,7 +20,7 @@ RUN bundle install
 COPY . .
 
 # Set entrypoint
-COPY ./backend/entrypoint.sh /usr/bin/
+COPY ./backend/entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
