@@ -25,7 +25,7 @@ services:
       - amenitiz_net
     env_file:
       - ./frontend/.env
-    command: serve -s build -l 3000
+    command: npm start
 
 networks:
   amenitiz_net:
