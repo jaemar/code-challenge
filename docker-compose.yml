@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: amenitiz_backend
+    environment:
+      - RAILS_ENV=production
+    ports:
+      - "3001:3001"
+    networks:
+      - amenitiz_net
+    command: bash -c "bundle exec rails db:prepare && bundle exec rails s -e production -b 0.0.0.0"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: amenitiz_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - amenitiz_net
+    env_file:
+      - ./frontend/.env
+    command: serve -s build -l 3000
+
+networks:
+  amenitiz_net:
+    driver: bridge

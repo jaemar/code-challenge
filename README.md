@@ -15,6 +15,7 @@ cd code-challenge
 
 #### Backend (Ruby-on-Rails)
 ```bash
+cd backend
 bundle install
 bin/rails db:prepare # db:create db:migrate db:seed
 bin/rails server -p 3001 # run the backend api
