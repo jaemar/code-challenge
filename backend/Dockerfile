@@ -17,7 +17,7 @@ COPY ./backend/Gemfile ./backend/Gemfile.lock ./
 RUN bundle install
 
 # Copy application code
-COPY . .
+COPY ./backend .
 
 # Set entrypoint
 COPY ./backend/entrypoint.sh /usr/bin/entrypoint.sh
