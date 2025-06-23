@@ -1,12 +1,15 @@
 require "rails_helper"
 
 RSpec.describe DiscountService, type: :service do
-  describe "Buy One Get One: Item price EUR 3.11" do
-    let(:product) { create(:green_tea_product) }
+  before do
+    create(:product_set)
+  end
 
+  describe "Buy One Get One: Item price EUR 3.11" do
     it "returns 3.11 for 2 items" do
       items_count = 2
       cart = create(:cart_with_bogo_discount, items_count: items_count)
+      product = cart.grouped_items.first.product
       discount_service = DiscountService.new(cart)
 
       expect(discount_service.discounted_total).to eq(Money.new(product.price_cents))
@@ -17,6 +20,7 @@ RSpec.describe DiscountService, type: :service do
       # as the other item should be the "GET ONE" free
       items_count = 3
       cart = create(:cart_with_bogo_discount, items_count: items_count)
+      product = cart.grouped_items.first.product
       discount_service = DiscountService.new(cart)
 
       expect(discount_service.discounted_total).to eq(Money.new(product.price_cents * 2))
@@ -24,11 +28,10 @@ RSpec.describe DiscountService, type: :service do
   end
 
   describe "BULK: Item price EUR 5.00" do
-    let(:product) { create(:strawberry_product) }
-
     it "returns 10.00 for 2 items" do
       items_count = 2
       cart = (create(:cart_with_bulk_discount, items_count: items_count))
+      product = cart.grouped_items.first.product
       discount_service = DiscountService.new(cart)
       expect(discount_service.discounted_total).to eq(Money.new(product.price_cents * items_count))
     end
@@ -51,12 +54,12 @@ RSpec.describe DiscountService, type: :service do
   end
 
   describe "PERCENTAGE: Item price EUR 11.23" do
-    let(:product) { create(:coffee_product) }
-
     it "returns 22.46 for 2 items" do
       items_count = 2
       cart = (create(:cart_with_percentage_discount, items_count: items_count))
+      product = cart.grouped_items.first.product
       discount_service = DiscountService.new(cart)
+
       expect(discount_service.discounted_total).to eq(Money.new(product.price_cents * items_count))
     end
 
@@ -64,6 +67,7 @@ RSpec.describe DiscountService, type: :service do
       items_count = 3
       cart = (create(:cart_with_percentage_discount, items_count: items_count))
       discount_service = DiscountService.new(cart)
+
       expect(discount_service.discounted_total).to eq(Money.new(2246))
     end
 
@@ -71,6 +75,7 @@ RSpec.describe DiscountService, type: :service do
       items_count = 4
       cart = (create(:cart_with_percentage_discount, items_count: items_count))
       discount_service = DiscountService.new(cart)
+
       expect(discount_service.discounted_total).to eq(Money.new(2995))
     end
   end

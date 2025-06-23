@@ -30,4 +30,13 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :product_set, class: Object do
+    to_create { }
+    after(:build) do |_|
+      create(:green_tea_product)
+      create(:strawberry_product)
+      create(:coffee_product)
+    end
+  end
 end
